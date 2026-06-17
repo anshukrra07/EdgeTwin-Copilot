@@ -33,8 +33,9 @@ WORKDIR /app
 # Copy built python dependencies from builder stage
 COPY --from=builder /root/.local /root/.local
 
-# Copy backend codebase
+# Copy backend codebase and ml baseline datasets
 COPY backend /app/backend
+COPY ml /app/ml
 
 # Expose FastAPI port
 EXPOSE 8000
