@@ -3,8 +3,8 @@ import { useWebSocket } from '../hooks/useWebSocket';
 import * as ort from 'onnxruntime-web';
 import { API_BASE, WS_BASE } from '../config';
 
-// Configure path to local public folder for WASM assets
-ort.env.wasm.wasmPaths = '/';
+// Configure path to CDN for WASM and worker assets to bypass Vite dev-server import restrictions
+ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.26.0/dist/';
 
 const MachineContext = createContext();
 
