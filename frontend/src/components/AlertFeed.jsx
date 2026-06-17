@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useWebSocket } from '../hooks/useWebSocket';
 import { AlertTriangle, Bell, BellOff, CheckCircle } from 'lucide-react';
+import { API_BASE, WS_BASE } from '../config';
 
 function AlertFeed({ machineId }) {
   const [alerts, setAlerts] = useState([]);
-  const { data: wsMessage } = useWebSocket('ws://localhost:8000/ws/alerts');
+  const { data: wsMessage } = useWebSocket(`${WS_BASE}/ws/alerts`);
 
   // Fetch initial alerts on mount or machine change
   useEffect(() => {
@@ -12,7 +13,7 @@ function AlertFeed({ machineId }) {
     
     const fetchAlerts = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/machines/${machineId}/alerts`);
+        const res = await fetch(`${API_BASE}/api/machines/${machineId}/alerts`);
         if (res.ok) {
           const data = await res.json();
           setAlerts(data);
@@ -55,7 +56,7 @@ function AlertFeed({ machineId }) {
   const handleAcknowledge = async (alertId) => {
     try {
       const token = localStorage.getItem('edgetwin_token');
-      await fetch(`http://localhost:8000/api/machines/${machineId}/alerts/${alertId}/acknowledge`, {
+      await fetch(`${API_BASE}/api/machines/${machineId}/alerts/${alertId}/acknowledge`, {
         method: 'POST',
         headers: {
           ...(token ? { 'Authorization': `Bearer ${token}` } : {})

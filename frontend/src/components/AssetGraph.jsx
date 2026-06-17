@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMachine } from '../context/MachineContext';
 import { Activity, AlertTriangle, Zap, Server } from 'lucide-react';
+import { API_BASE } from '../config';
 
 export default function AssetGraph({ activeSiteId }) {
   const { selectedMachineId, setSelectedMachineId } = useMachine();
@@ -12,7 +13,7 @@ export default function AssetGraph({ activeSiteId }) {
     let active = true;
     const fetchStatuses = async () => {
       try {
-        const res = await fetch('http://localhost:8000/api/machines/status');
+        const res = await fetch(`${API_BASE}/api/machines/status`);
         if (!res.ok) throw new Error('Failed to fetch status');
         const data = await res.json();
         if (active) {

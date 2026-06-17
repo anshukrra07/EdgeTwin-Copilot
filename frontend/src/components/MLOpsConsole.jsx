@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrainCircuit, X, RefreshCw, Activity, Cpu, AlertTriangle, ShieldCheck, Terminal } from 'lucide-react';
+import { API_BASE } from '../config';
 
 export default function MLOpsConsole({ isOpen, onClose }) {
   const [mlopsStatus, setMlopsStatus] = useState(null);
@@ -14,7 +15,7 @@ export default function MLOpsConsole({ isOpen, onClose }) {
     let active = true;
     const fetchStatus = async () => {
       try {
-        const res = await fetch('http://localhost:8000/api/mlops/status');
+        const res = await fetch(`${API_BASE}/api/mlops/status`);
         if (!res.ok) throw new Error('Failed to fetch MLOps status');
         const data = await res.json();
         if (active) {
@@ -39,7 +40,7 @@ export default function MLOpsConsole({ isOpen, onClose }) {
     setActionLoading(prev => ({ ...prev, [machineId]: true }));
     try {
       const token = localStorage.getItem('edgetwin_token') || 'operator-session-token-secret-1234';
-      const res = await fetch(`http://localhost:8000/api/mlops/retrain/${machineId}`, {
+      const res = await fetch(`${API_BASE}/api/mlops/retrain/${machineId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

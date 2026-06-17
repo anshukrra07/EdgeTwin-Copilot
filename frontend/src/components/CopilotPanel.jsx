@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrainCircuit, Loader2, Play, CheckCircle, AlertTriangle, ShieldCheck, Printer, X, Download, Power, Wrench, Send, RotateCcw } from 'lucide-react';
 import { useMachine } from '../context/MachineContext';
+import { API_BASE } from '../config';
 
 function CopilotPanel({ machineId, machineType, alertLevel, onClose }) {
   const { currentTelemetry, selectedMachine, refreshMachines, isSimulatingSafeState, setIsSimulatingSafeState } = useMachine();
@@ -23,7 +24,7 @@ function CopilotPanel({ machineId, machineType, alertLevel, onClose }) {
   const downloadRemediationCode = async () => {
     if (!machineId) return;
     try {
-      const res = await fetch(`http://localhost:8000/api/machines/${machineId}/remediation`);
+      const res = await fetch(`${API_BASE}/api/machines/${machineId}/remediation`);
       const data = await res.json();
       if (data.success && data.code) {
         const blob = new Blob([data.code], { type: 'text/plain;charset=utf-8' });
@@ -47,7 +48,7 @@ function CopilotPanel({ machineId, machineType, alertLevel, onClose }) {
     setActionStatus('');
     try {
       const token = localStorage.getItem('edgetwin_token');
-      const res = await fetch('http://localhost:8000/api/copilot/explain', {
+      const res = await fetch(`${API_BASE}/api/copilot/explain`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ function CopilotPanel({ machineId, machineType, alertLevel, onClose }) {
           content: m.text
         }));
 
-      const res = await fetch('http://localhost:8000/api/copilot/chat', {
+      const res = await fetch(`${API_BASE}/api/copilot/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,7 +166,7 @@ function CopilotPanel({ machineId, machineType, alertLevel, onClose }) {
           content: m.text
         }));
 
-      const res = await fetch('http://localhost:8000/api/copilot/chat', {
+      const res = await fetch(`${API_BASE}/api/copilot/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -329,7 +330,7 @@ function CopilotPanel({ machineId, machineType, alertLevel, onClose }) {
     setLoading(true);
     try {
       const token = localStorage.getItem('edgetwin_token');
-      const res = await fetch(`http://localhost:8000/api/machines/${machineId}/maintenance`, {
+      const res = await fetch(`${API_BASE}/api/machines/${machineId}/maintenance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

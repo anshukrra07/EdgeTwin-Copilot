@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { MachineProvider, useMachine } from './context/MachineContext';
 import MachineSelector from './components/MachineSelector';
+import { API_BASE } from './config';
 import HealthGauge from './components/HealthGauge';
 import RULIndicator from './components/RULIndicator';
 import ConfidenceBadge from './components/ConfidenceBadge';
@@ -102,7 +103,7 @@ function Dashboard() {
   const handleForceState = async (stateIdx) => {
     try {
       const token = localStorage.getItem('edgetwin_token');
-      await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/state/${stateIdx}`, {
+      await fetch(`${API_BASE}/api/machines/${selectedMachineId}/state/${stateIdx}`, {
         method: 'POST',
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });
@@ -114,7 +115,7 @@ function Dashboard() {
   const [tickInterval, setTickInterval] = useState(1.0);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/settings/interval')
+    fetch(`${API_BASE}/api/settings/interval`)
       .then(r => r.json())
       .then(d => setTickInterval(d.interval))
       .catch(() => {});
@@ -123,7 +124,7 @@ function Dashboard() {
   const handleSetInterval = async (seconds) => {
     try {
       const token = localStorage.getItem('edgetwin_token');
-      const res = await fetch(`http://localhost:8000/api/settings/interval/${seconds}`, { 
+      const res = await fetch(`${API_BASE}/api/settings/interval/${seconds}`, { 
         method: 'POST',
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });
@@ -598,7 +599,7 @@ function Login({ onLoginSuccess }) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:8000/api/auth/login', {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })

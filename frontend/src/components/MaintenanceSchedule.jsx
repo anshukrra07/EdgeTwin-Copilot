@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Wrench, Clock, CheckCircle2, AlertTriangle, Plus, ChevronRight, X, PackageOpen, ShoppingCart, Check } from 'lucide-react';
+import { API_BASE } from '../config';
 
 function MaintenanceSchedule({ selectedMachine, selectedMachineId, healthScore, onLogService }) {
   const [showLogModal, setShowLogModal] = useState(false);
@@ -12,7 +13,7 @@ function MaintenanceSchedule({ selectedMachine, selectedMachineId, healthScore, 
   const fetchPurchaseOrders = async () => {
     if (!selectedMachineId) return;
     try {
-      const res = await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/purchase-orders`);
+      const res = await fetch(`${API_BASE}/api/machines/${selectedMachineId}/purchase-orders`);
       if (res.ok) {
         const data = await res.json();
         setPurchaseOrders(data);
@@ -32,7 +33,7 @@ function MaintenanceSchedule({ selectedMachine, selectedMachineId, healthScore, 
   const handleApproveOrder = async (orderId) => {
     try {
       const token = localStorage.getItem('edgetwin_token');
-      const res = await fetch(`http://localhost:8000/api/purchase-orders/${orderId}/approve`, {
+      const res = await fetch(`${API_BASE}/api/purchase-orders/${orderId}/approve`, {
         method: 'POST',
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });
@@ -50,7 +51,7 @@ function MaintenanceSchedule({ selectedMachine, selectedMachineId, healthScore, 
   const handleRejectOrder = async (orderId) => {
     try {
       const token = localStorage.getItem('edgetwin_token');
-      const res = await fetch(`http://localhost:8000/api/purchase-orders/${orderId}/reject`, {
+      const res = await fetch(`${API_BASE}/api/purchase-orders/${orderId}/reject`, {
         method: 'POST',
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });
@@ -132,7 +133,7 @@ function MaintenanceSchedule({ selectedMachine, selectedMachineId, healthScore, 
     setSubmitting(true);
     try {
       const token = localStorage.getItem('edgetwin_token');
-      const res = await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/maintenance`, {
+      const res = await fetch(`${API_BASE}/api/machines/${selectedMachineId}/maintenance`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext, useRef, useMemo } from 'react';
 import { useWebSocket } from '../hooks/useWebSocket';
 import * as ort from 'onnxruntime-web';
+import { API_BASE, WS_BASE } from '../config';
 
 // Configure path to local public folder for WASM assets
 ort.env.wasm.wasmPaths = '/';
@@ -71,7 +72,7 @@ export function MachineProvider({ children }) {
   useEffect(() => {
     async function fetchMachines() {
       try {
-        const res = await fetch('http://localhost:8000/api/machines');
+        const res = await fetch(`${API_BASE}/api/machines`);
         const data = await res.json();
         setMachines(data);
         if (data.length > 0) {
@@ -99,7 +100,7 @@ export function MachineProvider({ children }) {
 
     async function fetchHistory() {
       try {
-        const res = await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/history?last_n=100`);
+        const res = await fetch(`${API_BASE}/api/machines/${selectedMachineId}/history?last_n=100`);
         const data = await res.json();
         setHistory(data);
       } catch (err) {
@@ -109,17 +110,17 @@ export function MachineProvider({ children }) {
     
     async function loadLocalModels() {
       try {
-        const scalerRes = await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/scaler`);
+        const scalerRes = await fetch(`${API_BASE}/api/machines/${selectedMachineId}/scaler`);
         if (!scalerRes.ok) return;
         const scalerData = await scalerRes.json();
         scalerRef.current = scalerData;
 
         // Fetch model files as ArrayBuffers
-        const iforestRes = await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/models/isolation_forest`);
+        const iforestRes = await fetch(`${API_BASE}/api/machines/${selectedMachineId}/models/isolation_forest`);
         const iforestBuf = await iforestRes.arrayBuffer();
         iforestSessionRef.current = await ort.InferenceSession.create(iforestBuf, { executionProviders: ['wasm'] });
 
-        const xgboostRes = await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/models/xgboost`);
+        const xgboostRes = await fetch(`${API_BASE}/api/machines/${selectedMachineId}/models/xgboost`);
         const xgboostBuf = await xgboostRes.arrayBuffer();
         xgboostSessionRef.current = await ort.InferenceSession.create(xgboostBuf, { executionProviders: ['wasm'] });
         
@@ -135,10 +136,10 @@ export function MachineProvider({ children }) {
 
   // Establish WebSocket connection for active machine telemetry
   const wsUrl = selectedMachineId 
-    ? `ws://localhost:8000/ws/telemetry/${selectedMachineId}`
+    ? `${WS_BASE}/ws/telemetry/${selectedMachineId}`
     : null;
     
-  const { data: wsData, isConnected } = useWebSocket(wsUrl || 'ws://localhost:8000/ws/telemetry/dummy');
+  const { data: wsData, isConnected } = useWebSocket(wsUrl || `${WS_BASE}/ws/telemetry/dummy`);
 
   // Handle incoming live telemetry stream and execute local ONNX inference
   useEffect(() => {
@@ -233,7 +234,7 @@ export function MachineProvider({ children }) {
   const setSandboxValue = async (sensorId, value) => {
     if (!selectedMachineId) return;
     try {
-      await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/sandbox`, {
+      await fetch(`${API_BASE}/api/machines/${selectedMachineId}/sandbox`, {
         method: 'POST',
         headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ sensor_id: sensorId, value })
@@ -246,7 +247,7 @@ export function MachineProvider({ children }) {
   const resetSandbox = async () => {
     if (!selectedMachineId) return;
     try {
-      await fetch(`http://localhost:8000/api/machines/${selectedMachineId}/sandbox/reset`, {
+      await fetch(`${API_BASE}/api/machines/${selectedMachineId}/sandbox/reset`, {
         method: 'POST',
         headers: getAuthHeaders()
       });
@@ -258,7 +259,7 @@ export function MachineProvider({ children }) {
 
   const refreshMachines = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/machines');
+      const res = await fetch(`${API_BASE}/api/machines`);
       const data = await res.json();
       setMachines(data);
     } catch (err) {
