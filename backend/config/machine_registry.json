@@ -1,0 +1,442 @@
+{
+  "machines": [
+    {
+      "machine_id": "AC-001",
+      "machine_type": "air_compressor",
+      "display_name": "Air Compressor Unit 1",
+      "site_id": "site_chicago",
+      "site_name": "Chicago HQ Facility",
+      "location": "Plant Floor - Section A",
+      "sensors": [
+        {
+          "sensor_id": "temp_01",
+          "type": "temperature",
+          "unit": "\u00b0C",
+          "normal_range": [
+            55.0,
+            75.0
+          ],
+          "warning_threshold": 78.0,
+          "critical_threshold": 92.0,
+          "weight_in_health": 0.25
+        },
+        {
+          "sensor_id": "vib_01",
+          "type": "vibration",
+          "unit": "mm/s",
+          "normal_range": [
+            1.5,
+            3.5
+          ],
+          "warning_threshold": 4.2,
+          "critical_threshold": 6.8,
+          "weight_in_health": 0.3
+        },
+        {
+          "sensor_id": "pres_01",
+          "type": "pressure",
+          "unit": "kPa",
+          "normal_range": [
+            95.0,
+            107.0
+          ],
+          "warning_threshold": 108.0,
+          "critical_threshold": 118.0,
+          "weight_in_health": 0.2
+        },
+        {
+          "sensor_id": "rpm_01",
+          "type": "rpm",
+          "unit": "RPM",
+          "normal_range": [
+            1700.0,
+            1900.0
+          ],
+          "warning_threshold": 1650.0,
+          "critical_threshold": 1500.0,
+          "weight_in_health": 0.15
+        },
+        {
+          "sensor_id": "pwr_01",
+          "type": "power",
+          "unit": "kW",
+          "normal_range": [
+            13.0,
+            17.0
+          ],
+          "warning_threshold": 18.0,
+          "critical_threshold": 21.0,
+          "weight_in_health": 0.1
+        }
+      ],
+      "model_path": "backend/models/air_compressor",
+      "failure_modes": [
+        "bearing_wear",
+        "overheating",
+        "pressure_leakage",
+        "lubrication_failure"
+      ],
+      "maintenance_schedule": {
+        "last_service_date": "2026-06-17",
+        "next_service_date": "2026-08-16",
+        "pm_interval_days": 60,
+        "service_history": [
+          {
+            "date": "2026-06-17",
+            "action": "Replace V-Belt Drive Rubber Belt (SP-AC-01) and inspect drive pulley alignment."
+          },
+          {
+            "date": "2026-06-17",
+            "action": "Perform comprehensive air compressor diagnostics, verify piping integrity, and inspect belt drive."
+          },
+          {
+            "date": "2026-06-16",
+            "action": "Replaced belt iteration 2"
+          },
+          {
+            "date": "2026-05-15",
+            "action": "Drive belt tension inspection"
+          }
+        ]
+      },
+      "spare_parts": [
+        {
+          "part_id": "SP-AC-01",
+          "name": "V-Belt Drive Rubber Belt",
+          "stock": 0,
+          "lead_time_days": 2,
+          "criticality": "high"
+        },
+        {
+          "part_id": "SP-AC-02",
+          "name": "Air Intake Filter Element",
+          "stock": 1,
+          "lead_time_days": 1,
+          "criticality": "medium"
+        }
+      ]
+    },
+    {
+      "machine_id": "CNC-001",
+      "machine_type": "cnc_machine",
+      "display_name": "CNC Milling Machine 1",
+      "site_id": "site_chicago",
+      "site_name": "Chicago HQ Facility",
+      "location": "Machining Bay - Section B",
+      "sensors": [
+        {
+          "sensor_id": "spindle_01",
+          "type": "spindle_speed",
+          "unit": "RPM",
+          "normal_range": [
+            8000.0,
+            12000.0
+          ],
+          "warning_threshold": 7500.0,
+          "critical_threshold": 6000.0,
+          "weight_in_health": 0.25
+        },
+        {
+          "sensor_id": "feed_01",
+          "type": "feed_rate",
+          "unit": "mm/min",
+          "normal_range": [
+            200.0,
+            500.0
+          ],
+          "warning_threshold": 550.0,
+          "critical_threshold": 700.0,
+          "weight_in_health": 0.15
+        },
+        {
+          "sensor_id": "wear_01",
+          "type": "tool_wear",
+          "unit": "\u03bcm",
+          "normal_range": [
+            0.0,
+            80.0
+          ],
+          "warning_threshold": 120.0,
+          "critical_threshold": 200.0,
+          "weight_in_health": 0.3
+        },
+        {
+          "sensor_id": "cool_01",
+          "type": "coolant_temp",
+          "unit": "\u00b0C",
+          "normal_range": [
+            18.0,
+            28.0
+          ],
+          "warning_threshold": 32.0,
+          "critical_threshold": 40.0,
+          "weight_in_health": 0.15
+        },
+        {
+          "sensor_id": "vib_cnc_01",
+          "type": "vibration",
+          "unit": "mm/s",
+          "normal_range": [
+            0.5,
+            2.5
+          ],
+          "warning_threshold": 3.5,
+          "critical_threshold": 5.5,
+          "weight_in_health": 0.15
+        }
+      ],
+      "model_path": "backend/models/cnc_machine",
+      "failure_modes": [
+        "tool_breakage",
+        "spindle_bearing_failure",
+        "coolant_system_failure",
+        "axis_misalignment"
+      ],
+      "maintenance_schedule": {
+        "last_service_date": "2026-06-17",
+        "next_service_date": "2026-08-01",
+        "pm_interval_days": 45,
+        "service_history": [
+          {
+            "date": "2026-06-17",
+            "action": "Conversational AI Work Order: Replace SP-CNC-01 due to tool_breakage."
+          },
+          {
+            "date": "2026-06-17",
+            "action": "Conversational AI Work Order: Replace SP-CNC-01 due to tool_breakage."
+          },
+          {
+            "date": "2026-06-17",
+            "action": "Conversational AI Work Order: Replace SP-CNC-01 due to tool_breakage."
+          },
+          {
+            "date": "2026-05-20",
+            "action": "Fluted drill bit calibration"
+          }
+        ]
+      },
+      "spare_parts": [
+        {
+          "part_id": "SP-CNC-01",
+          "name": "6mm Carbide Mill Cutter Bit",
+          "stock": 12,
+          "lead_time_days": 1,
+          "criticality": "high"
+        },
+        {
+          "part_id": "SP-CNC-02",
+          "name": "Spindle Ball Bearings (Set)",
+          "stock": 0,
+          "lead_time_days": 7,
+          "criticality": "high"
+        }
+      ],
+      "dependencies": [
+        {
+          "parent_id": "AC-001",
+          "type": "pneumatic_pressure"
+        }
+      ]
+    },
+    {
+      "machine_id": "AC-002",
+      "machine_type": "air_compressor",
+      "display_name": "Air Compressor Unit 2",
+      "site_id": "site_detroit",
+      "site_name": "Detroit Plant",
+      "location": "Plant Floor - Section C",
+      "sensors": [
+        {
+          "sensor_id": "temp_01",
+          "type": "temperature",
+          "unit": "\u00b0C",
+          "normal_range": [
+            55.0,
+            75.0
+          ],
+          "warning_threshold": 78.0,
+          "critical_threshold": 92.0,
+          "weight_in_health": 0.25
+        },
+        {
+          "sensor_id": "vib_01",
+          "type": "vibration",
+          "unit": "mm/s",
+          "normal_range": [
+            1.5,
+            3.5
+          ],
+          "warning_threshold": 4.2,
+          "critical_threshold": 6.8,
+          "weight_in_health": 0.3
+        },
+        {
+          "sensor_id": "pres_01",
+          "type": "pressure",
+          "unit": "kPa",
+          "normal_range": [
+            95.0,
+            107.0
+          ],
+          "warning_threshold": 108.0,
+          "critical_threshold": 118.0,
+          "weight_in_health": 0.2
+        },
+        {
+          "sensor_id": "rpm_01",
+          "type": "rpm",
+          "unit": "RPM",
+          "normal_range": [
+            1700.0,
+            1900.0
+          ],
+          "warning_threshold": 1650.0,
+          "critical_threshold": 1500.0,
+          "weight_in_health": 0.15
+        },
+        {
+          "sensor_id": "pwr_01",
+          "type": "power",
+          "unit": "kW",
+          "normal_range": [
+            13.0,
+            17.0
+          ],
+          "warning_threshold": 18.0,
+          "critical_threshold": 21.0,
+          "weight_in_health": 0.1
+        }
+      ],
+      "model_path": "backend/models/air_compressor",
+      "failure_modes": [
+        "bearing_wear",
+        "overheating",
+        "pressure_leakage",
+        "lubrication_failure"
+      ],
+      "maintenance_schedule": {
+        "last_service_date": "2026-06-16",
+        "next_service_date": "2026-08-15",
+        "pm_interval_days": 60,
+        "service_history": [
+          {
+            "date": "2026-06-16",
+            "action": "Commissioned unit in Detroit"
+          }
+        ]
+      },
+      "spare_parts": [
+        {
+          "part_id": "SP-AC-01",
+          "name": "V-Belt Drive Rubber Belt",
+          "stock": 4,
+          "lead_time_days": 2,
+          "criticality": "high"
+        }
+      ]
+    },
+    {
+      "machine_id": "CNC-002",
+      "machine_type": "cnc_machine",
+      "display_name": "CNC Milling Machine 2",
+      "site_id": "site_detroit",
+      "site_name": "Detroit Plant",
+      "location": "Machining Bay - Section D",
+      "sensors": [
+        {
+          "sensor_id": "spindle_01",
+          "type": "spindle_speed",
+          "unit": "RPM",
+          "normal_range": [
+            8000.0,
+            12000.0
+          ],
+          "warning_threshold": 7500.0,
+          "critical_threshold": 6000.0,
+          "weight_in_health": 0.25
+        },
+        {
+          "sensor_id": "feed_01",
+          "type": "feed_rate",
+          "unit": "mm/min",
+          "normal_range": [
+            200.0,
+            500.0
+          ],
+          "warning_threshold": 550.0,
+          "critical_threshold": 700.0,
+          "weight_in_health": 0.15
+        },
+        {
+          "sensor_id": "wear_01",
+          "type": "tool_wear",
+          "unit": "\u03bcm",
+          "normal_range": [
+            0.0,
+            80.0
+          ],
+          "warning_threshold": 120.0,
+          "critical_threshold": 200.0,
+          "weight_in_health": 0.3
+        },
+        {
+          "sensor_id": "cool_01",
+          "type": "coolant_temp",
+          "unit": "\u00b0C",
+          "normal_range": [
+            18.0,
+            28.0
+          ],
+          "warning_threshold": 32.0,
+          "critical_threshold": 40.0,
+          "weight_in_health": 0.15
+        },
+        {
+          "sensor_id": "vib_cnc_01",
+          "type": "vibration",
+          "unit": "mm/s",
+          "normal_range": [
+            0.5,
+            2.5
+          ],
+          "warning_threshold": 3.5,
+          "critical_threshold": 5.5,
+          "weight_in_health": 0.15
+        }
+      ],
+      "model_path": "backend/models/cnc_machine",
+      "failure_modes": [
+        "tool_breakage",
+        "spindle_bearing_failure",
+        "coolant_system_failure",
+        "axis_misalignment"
+      ],
+      "maintenance_schedule": {
+        "last_service_date": "2026-05-20",
+        "next_service_date": "2026-07-04",
+        "pm_interval_days": 45,
+        "service_history": [
+          {
+            "date": "2026-05-20",
+            "action": "Commissioned unit in Detroit"
+          }
+        ]
+      },
+      "spare_parts": [
+        {
+          "part_id": "SP-CNC-01",
+          "name": "6mm Carbide Mill Cutter Bit",
+          "stock": 10,
+          "lead_time_days": 1,
+          "criticality": "high"
+        }
+      ],
+      "dependencies": [
+        {
+          "parent_id": "AC-002",
+          "type": "pneumatic_pressure"
+        }
+      ]
+    }
+  ]
+}

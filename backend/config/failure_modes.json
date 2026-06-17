@@ -1,0 +1,118 @@
+{
+  "air_compressor": [
+    {
+      "failure_mode": "bearing_wear",
+      "display_name": "Bearing Degradation",
+      "severity": "high",
+      "description": "Progressive bearing surface deterioration causing increased friction and heat generation",
+      "sensor_patterns": {
+        "vibration": "elevated",
+        "temperature": "rising",
+        "rpm": "declining"
+      },
+      "recommended_action": "Inspect bearing assembly. Schedule replacement within 48-72 hours if vibration exceeds 6.0 mm/s.",
+      "estimated_repair_hours": 4,
+      "risk_if_ignored": "Catastrophic bearing seizure, shaft damage, unplanned shutdown"
+    },
+    {
+      "failure_mode": "overheating",
+      "display_name": "Thermal Anomaly",
+      "severity": "critical",
+      "description": "Coolant deficiency or ventilation failure causing heat buildup",
+      "sensor_patterns": {
+        "temperature": "elevated",
+        "power": "elevated",
+        "vibration": "normal"
+      },
+      "recommended_action": "Check coolant levels, inspect ventilation, verify ambient conditions. Reduce load if temperature exceeds 90°C.",
+      "estimated_repair_hours": 2,
+      "risk_if_ignored": "Thermal shutdown, insulation damage, fire hazard"
+    },
+    {
+      "failure_mode": "pressure_leakage",
+      "display_name": "Pressure System Leak",
+      "severity": "medium",
+      "description": "Pneumatic line leaks or valve leaks causing pressure drops",
+      "sensor_patterns": {
+        "pressure": "declining",
+        "temperature": "normal",
+        "power": "elevated"
+      },
+      "recommended_action": "Inspect pneumatic lines, fittings, and valve seals. Perform pressure hold test.",
+      "estimated_repair_hours": 3,
+      "risk_if_ignored": "Reduced output capacity, compressor cycling, energy waste"
+    },
+    {
+      "failure_mode": "lubrication_failure",
+      "display_name": "Lubrication Deficiency",
+      "severity": "high",
+      "description": "Insufficient oil levels or aged lubricants",
+      "sensor_patterns": {
+        "vibration": "elevated",
+        "temperature": "rising",
+        "power": "elevated"
+      },
+      "recommended_action": "Check oil levels and quality. Inspect lubrication lines. Schedule oil change and filter replacement.",
+      "estimated_repair_hours": 2,
+      "risk_if_ignored": "Accelerated bearing wear, overheating, premature component failure"
+    }
+  ],
+  "cnc_machine": [
+    {
+      "failure_mode": "tool_breakage",
+      "display_name": "Tool Wear / Breakage",
+      "severity": "critical",
+      "description": "Cutting tool has exceeded wear limits or is fractured, causing poor surface finish and dimensional inaccuracy",
+      "sensor_patterns": {
+        "tool_wear": "elevated",
+        "vibration": "elevated",
+        "feed_rate": "elevated"
+      },
+      "recommended_action": "Immediately halt machining operation. Replace cutting tool insert. Verify workpiece integrity before resuming.",
+      "estimated_repair_hours": 1,
+      "risk_if_ignored": "Workpiece scrap, spindle damage, operator safety hazard"
+    },
+    {
+      "failure_mode": "spindle_bearing_failure",
+      "display_name": "Spindle Bearing Degradation",
+      "severity": "high",
+      "description": "Spindle bearing wear causing excessive runout and vibration during high-speed operation",
+      "sensor_patterns": {
+        "vibration": "elevated",
+        "spindle_speed": "declining",
+        "coolant_temp": "rising"
+      },
+      "recommended_action": "Reduce spindle speed to 60% capacity. Schedule bearing replacement within 24 hours. Monitor vibration trend.",
+      "estimated_repair_hours": 8,
+      "risk_if_ignored": "Spindle seizure, catastrophic machine damage, extended downtime"
+    },
+    {
+      "failure_mode": "coolant_system_failure",
+      "display_name": "Coolant System Malfunction",
+      "severity": "medium",
+      "description": "Coolant flow restriction or temperature regulation failure affecting chip evacuation and thermal control",
+      "sensor_patterns": {
+        "coolant_temp": "elevated",
+        "tool_wear": "elevated",
+        "vibration": "normal"
+      },
+      "recommended_action": "Check coolant reservoir level and concentration. Inspect pump and nozzle flow rates. Clean coolant filters.",
+      "estimated_repair_hours": 2,
+      "risk_if_ignored": "Accelerated tool wear, poor surface finish, thermal distortion of workpiece"
+    },
+    {
+      "failure_mode": "axis_misalignment",
+      "display_name": "Axis Misalignment / Backlash",
+      "severity": "high",
+      "description": "Linear axis positioning error or backlash in ball screws causing dimensional inaccuracy",
+      "sensor_patterns": {
+        "vibration": "elevated",
+        "feed_rate": "elevated",
+        "spindle_speed": "normal"
+      },
+      "recommended_action": "Run ball bar test for axis calibration. Inspect ball screw and linear guide preload. Adjust backlash compensation.",
+      "estimated_repair_hours": 6,
+      "risk_if_ignored": "Out-of-tolerance parts, increased scrap rate, customer quality complaints"
+    }
+  ]
+}

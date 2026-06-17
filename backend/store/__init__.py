@@ -1,0 +1,1 @@
+# Init for store package
