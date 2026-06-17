@@ -244,3 +244,24 @@ npm install
 npm run dev
 ```
 *Dashboard will be active at `http://localhost:5173` (Credential: `admin` / `admin`).*
+
+### 4. Production Cloud Deployment (Vercel + Render)
+
+#### A. Frontend Web App (Vercel)
+* **Root Directory**: Configure to **`frontend`** (monorepo subfolder).
+* **Framework Preset**: `Vite`
+* **SPA Routing**: The `frontend/vercel.json` configures dynamic URL rewrites to `/index.html` to prevent `404` errors when reloading dashboards or orders routes.
+* **Environment Variables**:
+  * `VITE_API_URL`: Points to your deployed HTTP backend URL (e.g. `https://edgetwin-copilot.onrender.com`).
+  * `VITE_WS_URL`: Points to your deployed WebSocket URL (e.g. `wss://edgetwin-copilot.onrender.com`).
+
+#### B. API Gateway & ML Pipeline (Render Container)
+* **Language**: `Docker` (Render automatically compiles and runs the root `Dockerfile`).
+* **Root Directory**: Leave **blank / empty** (must compile from the project root to fetch the `ml/` baseline training CSVs).
+* **Environment Variables**:
+  * `LLM_PROVIDER`: `groq` (or `cached` fallback).
+  * `GROQ_API_KEY`: *your API key*.
+* **Persistent Disk (Optional - requires Starter plan)**:
+  * Mount Path: `/app/backend/store`
+  * Size: `1 GiB`
+  *(On the Render Free Tier, SQLite database updates and retrained ONNX models are ephemeral and reset when the container goes to sleep or restarts.)*
