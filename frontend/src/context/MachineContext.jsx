@@ -5,6 +5,8 @@ import { API_BASE, WS_BASE } from '../config';
 
 // Configure path to CDN for WASM and worker assets to bypass Vite dev-server import restrictions
 ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.26.0/dist/';
+// Restrict worker spawning to a single thread to eliminate browser thread compilation freezes
+ort.env.wasm.numThreads = 1;
 
 const MachineContext = createContext();
 
@@ -87,7 +89,7 @@ export function MachineProvider({ children }) {
     fetchMachines();
   }, []);
 
-  // Fetch history and load models when active machine changes
+  // Fetch history and reset state when active machine changes
   useEffect(() => {
     if (!selectedMachineId) return;
     setIsSandboxActive(false);
@@ -108,8 +110,21 @@ export function MachineProvider({ children }) {
       }
     }
     
+    fetchHistory();
+  }, [selectedMachineId]);
+
+  // Load local models ON-DEMAND only when local edge inference is actively enabled
+  useEffect(() => {
+    if (!selectedMachineId || !localInferenceEnabled) return;
+
+    // Skip if already loaded for the current machine
+    if (iforestSessionRef.current && xgboostSessionRef.current && scalerRef.current) {
+      return;
+    }
+
     async function loadLocalModels() {
       try {
+        console.log(`Loading local ONNX models on-demand for ${selectedMachineId}...`);
         const scalerRes = await fetch(`${API_BASE}/api/machines/${selectedMachineId}/scaler`);
         if (!scalerRes.ok) return;
         const scalerData = await scalerRes.json();
@@ -130,9 +145,8 @@ export function MachineProvider({ children }) {
       }
     }
 
-    fetchHistory();
     loadLocalModels();
-  }, [selectedMachineId]);
+  }, [selectedMachineId, localInferenceEnabled]);
 
   // Establish WebSocket connection for active machine telemetry
   const wsUrl = selectedMachineId 
